@@ -1,3 +1,3 @@
-export const setOrders = (state, data) => {
-  state.orders = data;
+export const setProducts = (state, data) => {
+  state.products = data;
 };

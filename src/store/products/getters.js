@@ -1,2 +1,2 @@
-export const getOrders = state => state.orders.orders;
-export const getOrdersPaginate = state => state.orders.metadata;
+export const getProducts = state => state.products.products;
+export const getProductsPaginate = state => state.products.metadata;

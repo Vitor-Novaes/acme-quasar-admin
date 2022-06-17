@@ -40,6 +40,7 @@
           color="secondary"
           row-key="id"
           binary-state-sort
+          :loading="loading"
           :rows-per-page-options=[10,15,25,50]
           :pagination.sync="pagination"
           @request="onRequest"
@@ -197,14 +198,16 @@ export default {
     },
     async getOrdersBack(props) {
       try {
+        this.loading = true;
         await this.fetchOrders(props);
         this.pagination.rowsNumber = this.getOrdersPaginate.total_count;
       } catch (error) {
-        console.log(error);
         Notify.create({
           message: error,
           color: 'negative',
         });
+      } finally {
+        this.loading = false;
       }
     },
   },

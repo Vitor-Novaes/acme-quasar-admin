@@ -24,6 +24,11 @@ export const getAllCategories = () => {
 };
 
 export const getAllProducts = (params) => {
+  const {
+    rowsPerPage,
+    page,
+  } = params.pagination
+
   let url = `/products?page=${page}&per_page=${rowsPerPage}`
 
   const {

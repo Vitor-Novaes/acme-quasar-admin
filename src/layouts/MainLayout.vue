@@ -46,14 +46,6 @@
                   <q-item-label>Themes</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item to="/" active-class="q-item-no-link-highlighting">
-                <q-item-section avatar="">
-                  <q-icon name="lock"></q-icon>
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Categories</q-item-label>
-                </q-item-section>
-              </q-item>
             </q-list>
           </q-expansion-item>
           <q-item to="/" active-class="q-item-no-link-highlighting">

@@ -14,6 +14,16 @@ export default [
           },
         ]
       },
+      {
+        path: 'products', component: () => import('pages/products'),
+        children: [
+          {
+            path: '',
+            name: 'products-list',
+            component: () => import('pages/products/list'),
+          },
+        ]
+      },
     ]
   },
 
