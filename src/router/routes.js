@@ -1,4 +1,4 @@
-const routes = [
+export default [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
@@ -21,6 +21,4 @@ const routes = [
     path: '/:catchAll(.*)*',
     component: () => import('pages/Error404.vue')
   },
-]
-
-export default routes
+];

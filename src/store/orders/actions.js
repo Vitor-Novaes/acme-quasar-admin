@@ -3,8 +3,7 @@ import {
   getAllOrders
 } from '../../services/API';
 
-export const fetchOrders = async ({ commit }, search) => {
-  const searchParam = search || '';
-  const { data } = await getAllOrders(searchParam);
+export const fetchOrders = async ({ commit }, params) => {
+  const { data } = await getAllOrders(params);
   commit('setOrders', data);
 };

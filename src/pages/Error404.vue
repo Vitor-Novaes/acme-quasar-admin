@@ -1,18 +1,15 @@
-<template lang="pug">
-  div(class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center")
-    div
-      div 404
-      div(class="text-h2") Oops. Nothing here...
-
-      q-btn(
-        class="q-mt-xl"
-        color="white"
-        text-color="blue"
-        unelevated
-        to="/"
-        label="Go Home"
-        no-caps
-      )
+<template>
+  <div class="fixed-center text-center">
+    <p class="text-faded">
+      Sorry, nothing here...<strong>(404)</strong>
+    </p>
+    <q-btn
+      color="secondary"
+      style="width:200px;"
+      to="/"
+      label="Go back"
+    />
+  </div>
 </template>
 
 <script>
