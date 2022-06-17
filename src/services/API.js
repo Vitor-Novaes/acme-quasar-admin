@@ -5,8 +5,37 @@ export const getAllOrders = (params) => {
     rowsPerPage,
     page,
   } = params.pagination
-  return Vue.prototype.$axios.get(`/orders?page=${page}&per_page=${rowsPerPage}`);
+
+  let url = `/orders?page=${page}&per_page=${rowsPerPage }`
+
+  const {
+    sort,
+    category
+  } = params.search
+
+  if (sort) url = url.concat(`&sort_by_sales=${sort}`)
+  if (category) url = url.concat(`&by_category=${category}`)
+
+  return Vue.prototype.$axios.get(url)
 };
+
+export const getAllCategories = () => {
+  return Vue.prototype.$axios.get(`/categories`);
+};
+
+export const getAllProducts = (params) => {
+  let url = `/products?page=${page}&per_page=${rowsPerPage}`
+
+  const {
+    sort,
+    category
+  } = params.search
+
+  if (sort) url = url.concat(`&sort_by_sales=${sort}`)
+  if (category) url = url.concat(`&by_category=${category}`)
+
+  return Vue.prototype.$axios.get(url)
+}
 
 export const sendFileOrders = (file) => {
   const headers = {

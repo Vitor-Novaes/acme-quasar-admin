@@ -38,7 +38,7 @@
                   <q-item-label>List</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item to="/variants" active-class="q-item-no-link-highlighting">
+              <q-item to="/" active-class="q-item-no-link-highlighting">
                 <q-item-section avatar="">
                   <q-icon name="lock"></q-icon>
                 </q-item-section>
@@ -46,7 +46,7 @@
                   <q-item-label>Themes</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item to="/categories" active-class="q-item-no-link-highlighting">
+              <q-item to="/" active-class="q-item-no-link-highlighting">
                 <q-item-section avatar="">
                   <q-icon name="lock"></q-icon>
                 </q-item-section>
@@ -56,9 +56,9 @@
               </q-item>
             </q-list>
           </q-expansion-item>
-          <q-item to="/client" active-class="q-item-no-link-highlighting">
+          <q-item to="/" active-class="q-item-no-link-highlighting">
             <q-item-section avatar="">
-              <q-icon name="person"></q-icon>
+              <q-icon name="lock"></q-icon>
             </q-item-section>
             <q-item-section>
               <q-item-label>Clients</q-item-label>

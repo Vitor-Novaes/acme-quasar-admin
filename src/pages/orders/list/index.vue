@@ -24,10 +24,12 @@
       </q-card>
     </q-dialog>
     <div class='text-h4 text-center text-weight-bold q-pb-sm q-mt-xl'> Orders</div>
+    <filterCustom class="q-my-md"
+      @searchValues="onRequest"
+      @reset="reset"
+      @clearField="cleanByField"
+    />
     <div class="col">
-      <q-btn class="q-mr-sm" flat color="black" @click="$router.push({ name: '' })">
-        New Order
-      </q-btn>
       <q-btn class="q-mr-sm" flat color="black" @click="dialogImport">
         Import CSV
       </q-btn>
@@ -61,8 +63,10 @@
 import { mapActions, mapGetters } from 'vuex';
 import { Notify, date } from 'quasar';
 import { currencyFormat } from 'src/helpers/currency';
+import filterCustom from 'src/components/filter';
 
 export default {
+  components: { filterCustom },
   data() {
     return {
       columns: [
@@ -83,7 +87,7 @@ export default {
         },
         {
           name: 'net_value',
-          label: 'Valor',
+          label: 'Value',
           field: 'net_value',
           type: 'text',
           value: 'net_value',
@@ -104,6 +108,10 @@ export default {
         rowsPerPage: 15,
         page: 1,
         rowsNumber: 30,
+      },
+      search: {
+        category: null ,
+        sort: null,
       },
       itemId: null,
       openDialog: false,
@@ -158,12 +166,16 @@ export default {
         });
       }
     },
+
     dialogConfirmation(id) {
       this.itemId = id;
       this.openDialog = true;
     },
     dialogImport() {
       this.importDialog = true;
+    },
+    cleanByField(field) {
+      this[field] = null;
     },
     async onRequest(props) {
       const {
@@ -173,15 +185,22 @@ export default {
 
       this.pagination.page = page;
       this.pagination.rowsPerPage = rowsPerPage;
+      if (props.search) this.search.sort = props.search.sort;
+      if (props.search) this.search.category = props.search.category;
+      await this.getOrdersBack({
+        pagination: this.pagination,
+        search: this.search,
+      });
+    },
+    async reset() {
       await this.getOrdersBack();
     },
-    async getOrdersBack() {
+    async getOrdersBack(props) {
       try {
-        await this.fetchOrders({
-          pagination: this.pagination,
-        });
+        await this.fetchOrders(props);
         this.pagination.rowsNumber = this.getOrdersPaginate.total_count;
       } catch (error) {
+        console.log(error);
         Notify.create({
           message: error,
           color: 'negative',
@@ -190,7 +209,7 @@ export default {
     },
   },
   async mounted() {
-    await this.onRequest({ pagination: this.pagination });
+    await this.onRequest({ pagination: this.pagination, search: this.search });
   },
 };
 </script>
