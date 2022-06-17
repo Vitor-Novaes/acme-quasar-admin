@@ -6,19 +6,29 @@
         <q-card-section class="row items-center">
           <span class="q-ml-sm"> Do you really sure to delete this order ?</span>
           <q-card-actions align="right">
-            <q-btn flat label="Back" color="primary" v-close-popup>
-              <q-btn flat label="Delete" color="primary" v-close-popup @click='deleteOrder(itemId)'></q-btn>
-            </q-btn>
+            <q-btn flat label="Back" color="primary" v-close-popup></q-btn>
+            <q-btn flat label="Delete" color="primary" v-close-popup @click='deleteOrder(itemId)'></q-btn>
+          </q-card-actions>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="importDialog" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-input @input="val => { file = val[0] }" filled type="file" hint="CSV file" />
+          <q-card-actions align="right">
+            <q-btn flat label="Back" color="primary" v-close-popup></q-btn>
+            <q-btn flat label="Upload" color="primary" v-close-popup @click='submitFile'></q-btn>
           </q-card-actions>
         </q-card-section>
       </q-card>
     </q-dialog>
     <div class='text-h4 text-center text-weight-bold q-pb-sm q-mt-xl'> Orders</div>
     <div class="col">
-      <q-btn class="q-mr-sm" flat round color="black" @click="$router.push({ name: 'new-order' })">
+      <q-btn class="q-mr-sm" flat color="black" @click="$router.push({ name: '' })">
         New Order
       </q-btn>
-      <q-btn class="q-mr-sm" flat round color="black" @click="$router.push({ name: 'import-orders' })">
+      <q-btn class="q-mr-sm" flat color="black" @click="dialogImport">
         Import CSV
       </q-btn>
     </div>
@@ -89,6 +99,7 @@ export default {
         },
 
       ],
+      file: null,
       pagination: {
         rowsPerPage: 15,
         page: 1,
@@ -96,6 +107,8 @@ export default {
       },
       itemId: null,
       openDialog: false,
+      importDialog: false,
+      loading: false,
     };
   },
   computed: {
@@ -105,7 +118,29 @@ export default {
     ...mapActions('orders', [
       'fetchOrders',
       'deleteOrder',
+      'uploadOrders',
     ]),
+
+    async submitFile() {
+      try {
+        this.$q.loading.show({
+          message: 'Processing Data File. Hang on ...'
+        })
+        await this.uploadOrders(this.file)
+
+        Notify.create({
+          message: 'Uploaded successfully',
+          color: 'positive',
+        });
+      } catch (error) {
+        Notify.create({
+          message: error.response.data.errors.message,
+          color: 'negative',
+        });
+      } finally {
+        this.$q.loading.hide()
+      }
+    },
 
     async deleteOrder(id) {
       try {
@@ -126,6 +161,9 @@ export default {
     dialogConfirmation(id) {
       this.itemId = id;
       this.openDialog = true;
+    },
+    dialogImport() {
+      this.importDialog = true;
     },
     async onRequest(props) {
       const {

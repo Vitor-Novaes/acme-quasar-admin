@@ -5,6 +5,9 @@
   "productName": "ACME App",
   "author": "",
   "private": true,
+  "scripts": {
+    "dev": "./node_modules/.bin/quasar dev"
+  },
   "dependencies": {
     "@quasar/extras": "^1.9.9",
     "@websanova/vue-auth": "^2.21.15-beta",
