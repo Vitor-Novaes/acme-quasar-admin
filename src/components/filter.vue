@@ -1,6 +1,6 @@
 <template>
   <div id="v-filter">
-    <div class="row flex justify-center">
+    <div class="row flex justify-center q-mx-xl">
       <div class="col-xs-12 col-sm-3 col-md-3 q-ml-lg">
         <q-select
           v-model="search.category"

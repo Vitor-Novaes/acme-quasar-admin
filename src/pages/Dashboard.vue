@@ -29,19 +29,21 @@
       </div>
       <q-separator inset />
       <div class="row q-my-md justify-between q-mx-md">
-        <div class='text-h5 text-left text-weight-bold q-pb-sm q-mt-xl'>
-          PATCH/DELETE/POST aren't implementing here yet. Please access API documentation in that button
+        <div class='text-h6 text-left text-weight-bold q-pb-sm q-mt-xl'>
+          PATCH/DELETE/POST aren't implemented here yet. Please access API documentation in that button
         </div>
         <div class='q-pb-sm q-mt-xl'>
-          <q-btn
-            class="btn-md"
-            label="API DOC"
-            color="primary"
-            target='_blank'
-            @click="gotToDocs"
-            icon="link">
+          <q-btn class="btn-md" label="API DOC" color="primary" target='_blank' @click="gotToDocs" icon="link">
           </q-btn>
         </div>
+      </div>
+      <q-separator inset />
+      <div class="row q-my-md justify-between q-mx-md">
+        <div class='text-h6 text-left text-weight-bold q-pb-sm q-mt-xl'> Client Module only API</div>
+      </div>
+      <q-separator inset />
+      <div class="row q-my-md justify-between q-mx-md">
+        <div class='text-h6 text-left text-weight-bold q-pb-sm'>Devise auth not implemented</div>
       </div>
     </div>
   </q-page>
