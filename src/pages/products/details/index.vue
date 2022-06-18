@@ -5,7 +5,7 @@
       <div class="col-lg-5 col-md-5 col-sm-12 row q-px-xl q-py-xl justify-center">
         <div class="row q-mt-xl">
           <div
-            class="col-xs-4 col-lg-3 col-sm-6 col-md-4"
+            class="col-xs-4 col-lg-3 col-sm-6 col-xs-12 col-md-4"
             v-for="variant in productVariants"
             :key="variant.id"
           >

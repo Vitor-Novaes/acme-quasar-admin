@@ -19,18 +19,6 @@
       @clearField="cleanByField"
       resource="Orders"
     />
-    <div class="col-12 flex flex-center q-py-md text-left">
-      <div class="col">
-        <q-btn size="lg"
-          class="q-mr-sm"
-          flat color="grey-9"
-          @click="goToNewOrder"
-          btn-lg
-        >
-          Create Order
-        </q-btn>
-      </div>
-    </div>
     <div class="row q-mx-xl q-my-xl">
       <div class="col-xs-12 col-sm-12 col-md-12">
         <q-table
