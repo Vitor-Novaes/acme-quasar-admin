@@ -10,7 +10,7 @@
             href="https://github.com/Vitor-Novaes" target="_blank"></q-btn>
         </div>
       </q-toolbar>
-      <q-drawer class="text-grey-10" v-model="leftDrawerOpen" show-if-above="" bordered="">
+      <q-drawer class="text-white" v-model="leftDrawerOpen" show-if-above="" bordered="">
         <q-list>
           <q-item to="/" active-class="q-item-no-link-highlighting">
             <q-item-section avatar="">
@@ -22,7 +22,7 @@
           </q-item>
           <q-item to="/orders" active-class="q-item-no-link-highlighting">
             <q-item-section avatar="">
-              <q-icon name="dashboard"></q-icon>
+              <q-icon name="shopping_cart"></q-icon>
             </q-item-section>
             <q-item-section>
               <q-item-label>Orders</q-item-label>
@@ -38,27 +38,19 @@
                   <q-item-label>List</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item to="/variants" active-class="q-item-no-link-highlighting">
+              <q-item to="/products/themes" active-class="q-item-no-link-highlighting">
                 <q-item-section avatar="">
-                  <q-icon name="lock"></q-icon>
+                  <q-icon name="card_giftcard"></q-icon>
                 </q-item-section>
                 <q-item-section>
                   <q-item-label>Themes</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item to="/categories" active-class="q-item-no-link-highlighting">
-                <q-item-section avatar="">
-                  <q-icon name="lock"></q-icon>
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Categories</q-item-label>
-                </q-item-section>
-              </q-item>
             </q-list>
           </q-expansion-item>
-          <q-item to="/client" active-class="q-item-no-link-highlighting">
+          <q-item to="/" active-class="q-item-no-link-highlighting">
             <q-item-section avatar="">
-              <q-icon name="person"></q-icon>
+              <q-icon name="lock"></q-icon>
             </q-item-section>
             <q-item-section>
               <q-item-label>Clients</q-item-label>
@@ -67,7 +59,7 @@
         </q-list>
       </q-drawer>
     </q-header>
-    <q-page-container class="bg-grey-2">
+    <q-page-container class="bg-grey-3">
       <router-view />
     </q-page-container>
   </q-layout>
@@ -87,3 +79,10 @@ export default {
   }
 }
 </script>
+
+<style>
+#mainLayout
+  .q-drawer {
+    background-color: #363636;
+  }
+</style>

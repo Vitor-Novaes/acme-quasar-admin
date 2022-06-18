@@ -12,6 +12,34 @@ export default [
             name: 'orders-list',
             component: () => import('pages/orders/list'),
           },
+          {
+            path: 'details/:id',
+            name: 'order-details',
+            props: true,
+            component: () => import('pages/orders/details'),
+          },
+        ]
+      },
+      {
+        path: 'products', component: () => import('pages/products'),
+        children: [
+          {
+            path: '',
+            name: 'products-list',
+            component: () => import('pages/products/list'),
+          },
+          {
+            path: 'details/:id',
+            name: 'product-details',
+            component: () => import('pages/products/details'),
+            props: true,
+          },
+          {
+            path: 'themes',
+            name: 'themes',
+            component: () => import('pages/products/themes_list'),
+            props: true,
+          },
         ]
       },
     ]

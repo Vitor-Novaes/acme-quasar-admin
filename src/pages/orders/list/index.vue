@@ -12,32 +12,33 @@
         </q-card-section>
       </q-card>
     </q-dialog>
-    <q-dialog v-model="importDialog" persistent>
-      <q-card>
-        <q-card-section class="row items-center">
-          <q-input @input="val => { file = val[0] }" filled type="file" hint="CSV file" />
-          <q-card-actions align="right">
-            <q-btn flat label="Back" color="primary" v-close-popup></q-btn>
-            <q-btn flat label="Upload" color="primary" v-close-popup @click='submitFile'></q-btn>
-          </q-card-actions>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
     <div class='text-h4 text-center text-weight-bold q-pb-sm q-mt-xl'> Orders</div>
-    <div class="col">
-      <q-btn class="q-mr-sm" flat color="black" @click="$router.push({ name: '' })">
-        New Order
-      </q-btn>
-      <q-btn class="q-mr-sm" flat color="black" @click="dialogImport">
-        Import CSV
-      </q-btn>
+    <filterCustom class="q-my-md"
+      @searchValues="onRequest"
+      @reset="reset"
+      @clearField="cleanByField"
+      resource="Orders"
+    />
+    <div class="col-12 flex flex-center q-py-md text-left">
+      <div class="col">
+        <q-btn size="lg"
+          class="q-mr-sm"
+          flat color="grey-9"
+          @click="goToNewOrder"
+          btn-lg
+        >
+          Create Order
+        </q-btn>
+      </div>
     </div>
-    <div class="row q-mt-xl">
+    <div class="row q-mx-xl q-my-xl">
       <div class="col-xs-12 col-sm-12 col-md-12">
         <q-table
           color="secondary"
+          class="bg-grey-4"
           row-key="id"
           binary-state-sort
+          :loading="loading"
           :rows-per-page-options=[10,15,25,50]
           :pagination.sync="pagination"
           @request="onRequest"
@@ -48,6 +49,18 @@
             <q-tr :props="props">
               <q-td v-for="col in props.cols" :key="col.name" :props="props">
                 <span>{{ col.value }}</span>
+              </q-td>
+              <q-td auto-width>
+                 <q-btn
+                  size="md"
+                  font-size="sm"
+                  color="primary"
+                  label="Details"
+                  flat
+                  icon="link"
+                  dense
+                  @click="goToDetails(props.row)"
+                 ></q-btn>
               </q-td>
             </q-tr>
           </template>
@@ -61,8 +74,10 @@
 import { mapActions, mapGetters } from 'vuex';
 import { Notify, date } from 'quasar';
 import { currencyFormat } from 'src/helpers/currency';
+import filterCustom from 'src/components/filter';
 
 export default {
+  components: { filterCustom },
   data() {
     return {
       columns: [
@@ -83,7 +98,7 @@ export default {
         },
         {
           name: 'net_value',
-          label: 'Valor',
+          label: 'Value',
           field: 'net_value',
           type: 'text',
           value: 'net_value',
@@ -99,15 +114,18 @@ export default {
         },
 
       ],
-      file: null,
       pagination: {
         rowsPerPage: 15,
         page: 1,
         rowsNumber: 30,
       },
+      search: {
+        category: null ,
+        sort: null,
+        status: null,
+      },
       itemId: null,
       openDialog: false,
-      importDialog: false,
       loading: false,
     };
   },
@@ -120,27 +138,6 @@ export default {
       'deleteOrder',
       'uploadOrders',
     ]),
-
-    async submitFile() {
-      try {
-        this.$q.loading.show({
-          message: 'Processing Data File. Hang on ...'
-        })
-        await this.uploadOrders(this.file)
-
-        Notify.create({
-          message: 'Uploaded successfully',
-          color: 'positive',
-        });
-      } catch (error) {
-        Notify.create({
-          message: error.response.data.errors.message,
-          color: 'negative',
-        });
-      } finally {
-        this.$q.loading.hide()
-      }
-    },
 
     async deleteOrder(id) {
       try {
@@ -158,12 +155,13 @@ export default {
         });
       }
     },
+
     dialogConfirmation(id) {
       this.itemId = id;
       this.openDialog = true;
     },
-    dialogImport() {
-      this.importDialog = true;
+    cleanByField(field) {
+      this[field] = null;
     },
     async onRequest(props) {
       const {
@@ -173,24 +171,40 @@ export default {
 
       this.pagination.page = page;
       this.pagination.rowsPerPage = rowsPerPage;
+      if (props.search) this.search.sort = props.search.sort;
+      if (props.search) this.search.category = props.search.category;
+      if (props.search) this.search.status = props.search.status;
+      await this.getOrdersBack({
+        pagination: this.pagination,
+        search: this.search,
+      });
+    },
+    async reset() {
       await this.getOrdersBack();
     },
-    async getOrdersBack() {
+    async getOrdersBack(props) {
       try {
-        await this.fetchOrders({
-          pagination: this.pagination,
-        });
+        this.loading = true;
+        await this.fetchOrders(props);
         this.pagination.rowsNumber = this.getOrdersPaginate.total_count;
       } catch (error) {
         Notify.create({
           message: error,
           color: 'negative',
         });
+      } finally {
+        this.loading = false;
       }
     },
+    goToDetails(props) {
+      this.$router.push({ name: 'order-details', params: { id: props.id } });
+    },
+    goToNewOrder() {
+      this.$router.push({ name: 'order-new' });
+    }
   },
   async mounted() {
-    await this.onRequest({ pagination: this.pagination });
+    await this.onRequest({ pagination: this.pagination, search: this.search });
   },
 };
 </script>

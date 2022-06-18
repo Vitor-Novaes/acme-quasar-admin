@@ -35,13 +35,6 @@ module.exports = function (ctx) {
       },
       scopeHoisting: true,
       vueRouterMode: 'history',
-      extendWebpack(cfg) {
-        cfg.module.rules.push({
-          test: /\.pug$/,
-          loader: 'pug-plain-loader',
-          exclude: /(node_modules|quasar)/
-        });
-      }
     },
     devServer: {
       open: true,
