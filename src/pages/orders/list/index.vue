@@ -30,7 +30,7 @@
       @clearField="cleanByField"
     />
     <div class="col">
-      <q-btn class="q-mr-sm" flat color="black" @click="dialogImport">
+      <q-btn size="lg" class="q-mr-sm" flat color="grey-7" @click="dialogImport" btn-lg>
         Import CSV
       </q-btn>
     </div>
@@ -38,6 +38,7 @@
       <div class="col-xs-12 col-sm-12 col-md-12">
         <q-table
           color="secondary"
+          class="bg-grey-4"
           row-key="id"
           binary-state-sort
           :loading="loading"

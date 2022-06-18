@@ -10,6 +10,7 @@
     <div class="row q-mt-xl">
       <div class="col-xs-12 col-sm-12 col-md-12">
         <q-table
+          class="bg-grey-4"
           color="secondary"
           row-key="id"
           binary-state-sort
@@ -24,6 +25,16 @@
             <q-tr :props="props">
               <q-td v-for="col in props.cols" :key="col.name" :props="props">
                 <span>{{ col.value }}</span>
+              </q-td>
+              <q-td auto-width>
+                 <q-btn
+                  size="sm"
+                  color="primary"
+                  label="Details"
+                  flat
+                  dense
+                  @click="goToDetails(props.row)"
+                 ></q-btn>
               </q-td>
             </q-tr>
           </template>
@@ -129,6 +140,9 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+    goToDetails(props) {
+      this.$router.push({ name: 'product-details', params:{ id: props.id } });
     },
   },
   async mounted() {

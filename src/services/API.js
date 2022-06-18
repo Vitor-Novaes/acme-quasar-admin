@@ -1,5 +1,6 @@
 import Vue from 'vue';
 
+// Orders
 export const getAllOrders = (params) => {
   const {
     rowsPerPage,
@@ -19,10 +20,25 @@ export const getAllOrders = (params) => {
   return Vue.prototype.$axios.get(url)
 };
 
+export const sendFileOrders = (file) => {
+  const headers = {
+    'Content-Type': 'multipart/form-data',
+  };
+  const formData = new FormData();
+  formData.append('file', file);
+  return Vue.prototype.$axios.post(
+    `/orders/import-data`,
+    formData,
+    { headers }
+  );
+}
+
+// Category
 export const getAllCategories = () => {
   return Vue.prototype.$axios.get(`/categories`);
 };
 
+// Products
 export const getAllProducts = (params) => {
   const {
     rowsPerPage,
@@ -42,15 +58,6 @@ export const getAllProducts = (params) => {
   return Vue.prototype.$axios.get(url)
 }
 
-export const sendFileOrders = (file) => {
-  const headers = {
-    'Content-Type': 'multipart/form-data',
-  };
-  const formData = new FormData();
-  formData.append('file', file);
-  return Vue.prototype.$axios.post(
-    `/orders/import-data`,
-    formData,
-    { headers }
-  );
+export const getProduct = (params) => {
+  return Vue.prototype.$axios.get(`/products/${params.id}`);
 }

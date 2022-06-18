@@ -10,7 +10,7 @@
             href="https://github.com/Vitor-Novaes" target="_blank"></q-btn>
         </div>
       </q-toolbar>
-      <q-drawer class="text-grey-10" v-model="leftDrawerOpen" show-if-above="" bordered="">
+      <q-drawer class="text-white" v-model="leftDrawerOpen" show-if-above="" bordered="">
         <q-list>
           <q-item to="/" active-class="q-item-no-link-highlighting">
             <q-item-section avatar="">
@@ -59,7 +59,7 @@
         </q-list>
       </q-drawer>
     </q-header>
-    <q-page-container class="bg-grey-2">
+    <q-page-container class="bg-grey-3">
       <router-view />
     </q-page-container>
   </q-layout>
@@ -79,3 +79,10 @@ export default {
   }
 }
 </script>
+
+<style>
+#mainLayout
+  .q-drawer {
+    background-color: #363636;
+  }
+</style>
