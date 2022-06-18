@@ -13,7 +13,7 @@
         <span>{{ getOrder.client.name }}: {{ getOrder.client.email }}</span>
       </div>
       <div class="row col-lg-5 col-md-5 col-sm-12 q-px-xl q-py-xl justify-left">
-        <div class="col-xs-4 col-lg-3 col-sm-6 col-md-4" v-for="register in getOrder.registers">
+        <div class="col-xs-4 col-lg-3 col-sm-6 col-md-4" v-for="register in getOrder.registers" :key="register.id">
           <q-card class="q-mx-md q-my-md">
             <q-img :src='register.product.variant.image' class="image-cover" />
 
@@ -49,12 +49,7 @@
         </div>
       </div>
       <div class="flex justify-end q-px-md q-py-md">
-        <q-btn
-          label="Back"
-          flat
-          color="primary"
-          @click="$router.push({ name: 'orders-list' })"
-        ></q-btn>
+        <q-btn label="Back" flat color="primary" @click="$router.push({ name: 'orders-list' })"></q-btn>
       </div>
     </div>
   </q-page>
