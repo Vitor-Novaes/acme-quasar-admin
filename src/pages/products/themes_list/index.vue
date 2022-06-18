@@ -1,7 +1,7 @@
 
 <template>
-  <q-page id="products" padding>
-    <div class='text-h4 text-center text-weight-bold q-pb-sm q-mt-xl'> Products</div>
+  <q-page id="orders" padding>
+    <div class='text-h4 text-center text-weight-bold q-pb-sm q-mt-xl'> Themes</div>
     <filterCustom class="q-my-md"
       @searchValues="onRequest"
       @reset="reset"
@@ -10,8 +10,8 @@
     <div class="row q-mx-xl q-my-xl">
       <div class="col-xs-12 col-sm-12 col-md-12">
         <q-table
-          class="bg-grey-4"
           color="secondary"
+          class="bg-grey-4"
           row-key="id"
           binary-state-sort
           :loading="loading"
@@ -19,24 +19,16 @@
           :pagination.sync="pagination"
           @request="onRequest"
           :columns="columns"
-          :data="this.getProducts"
+          :data="this.getVariants"
         >
           <template v-slot:body="props">
             <q-tr :props="props">
               <q-td v-for="col in props.cols" :key="col.name" :props="props">
-                <span>{{ col.value }}</span>
-              </q-td>
-              <q-td auto-width>
-                 <q-btn
-                  size="md"
-                  font-size="sm"
-                  color="primary"
-                  label="Details"
-                  flat
-                  icon="link"
-                  dense
-                  @click="goToDetails(props.row)"
-                 ></q-btn>
+                <span v-if="col.name !== 'image'">{{ col.value }}</span>
+
+                <q-avatar rounded v-if="col.name === 'image'" size="5em">
+                  <img :src="col.value">
+                </q-avatar>
               </q-td>
             </q-tr>
           </template>
@@ -48,7 +40,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { Notify, date } from 'quasar';
+import { Notify } from 'quasar';
 import { currencyFormat } from 'src/helpers/currency';
 import filterCustom from 'src/components/filter';
 
@@ -58,35 +50,33 @@ export default {
     return {
       columns: [
         {
-          name: 'total_sales',
-          label: 'Sales',
-          field: 'total_sales',
-          value: 'total_sales',
-          align: 'center',
+          name: 'image',
+          label: 'Image',
+          field: 'image',
+          value: 'image',
+          align: 'left',
         },
         {
-          name: 'name',
-          label: 'Name',
-          field: 'name',
+          name: 'code',
+          label: 'Code',
+          field: 'code',
           align: 'left',
           sortable: false,
         },
         {
-          name: 'base_value',
-          label: 'Base Value',
-          field: 'base_value',
-          value: 'base_value',
+          name: 'value',
+          label: 'Value',
+          field: 'value',
+          value: 'value',
           align: 'left',
-          format: base_value => currencyFormat(base_value)
+          format: value => currencyFormat(value)
         },
         {
-          name: 'created_at',
-          label: 'Created',
-          field: 'created_at',
-          align: 'left',
-          format: created_at => date.formatDate(created_at, 'MM/DD/YYYY - HH:mm')
+          name: 'sales',
+          label: 'Sales',
+          field: 'sales',
+          align: 'center',
         },
-
       ],
       pagination: {
         rowsPerPage: 15,
@@ -101,12 +91,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('products', ['getProducts', 'getProductsPaginate'])
+    ...mapGetters('variants', ['getVariants', 'getVariantsPaginate'])
   },
   methods: {
-    ...mapActions('products', [
-      'fetchProducts',
-    ]),
+    ...mapActions('variants', ['fetchVariants']),
+
     cleanByField(field) {
       this[field] = null;
     },
@@ -120,20 +109,21 @@ export default {
       this.pagination.rowsPerPage = rowsPerPage;
       if (props.search) this.search.sort = props.search.sort;
       if (props.search) this.search.category = props.search.category;
-      await this.getProductsBack({
+      await this.getVariantsBack({
         pagination: this.pagination,
         search: this.search,
       });
     },
     async reset() {
-      await this.getProductsBack();
+      await this.getVariantsBack();
     },
-    async getProductsBack(props) {
+    async getVariantsBack(props) {
       try {
         this.loading = true;
-        await this.fetchProducts(props);
-        this.pagination.rowsNumber = this.getProductsPaginate.total_count;
+        await this.fetchVariants(props);
+        this.pagination.rowsNumber = this.getVariantsPaginate.total_count;
       } catch (error) {
+        console.log(error);
         Notify.create({
           message: error,
           color: 'negative',
@@ -141,9 +131,6 @@ export default {
       } finally {
         this.loading = false;
       }
-    },
-    goToDetails(props) {
-      this.$router.push({ name: 'product-details', params:{ id: props.id } });
     },
   },
   async mounted() {

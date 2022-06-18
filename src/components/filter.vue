@@ -34,6 +34,22 @@
         >
         </q-select>
       </div>
+      <div v-if="resource === 'Orders'" class="col-xs-12 col-sm-3 col-md-3 q-ml-lg">
+        <q-select
+          v-model="search.status"
+          clearable
+          filled
+          dense
+          options-dense
+          map-options
+          label="Status"
+          align="center"
+          :value="search.status"
+          :options="optionsStatus"
+          @clear="resetOnClear('search.status')"
+        >
+        </q-select>
+      </div>
     </div>
     <div class="row col-12 q-mt-lg flex items-baseline justify-center">
       <div class="text-center q-px-md q-my-sm">
@@ -59,8 +75,15 @@ export default {
       search: {
         sort: '',
         category: '',
+        status: '',
       },
     };
+  },
+  props: {
+    resource: {
+      type: String,
+      required: false,
+    },
   },
   computed: {
     ...mapGetters('categories', ['getCategories']),
@@ -74,6 +97,9 @@ export default {
       const categories = this.getCategories;
       return categories.map((category) => category.name);
     },
+    optionsStatus() {
+      return ['SENT', 'WAITING', 'PRODUCTION', 'CANCELED', 'POSTING']
+    }
   },
   async beforeMount() {
     await this.fetchCategories();

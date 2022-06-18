@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import orders from './orders';
 import categories from './categories';
 import products from './products';
+import variants from './variants';
 
 Vue.use(Vuex);
 
@@ -13,6 +14,7 @@ const store = new Vuex.Store({
    orders,
    categories,
    products,
+   variants,
   },
 });
 

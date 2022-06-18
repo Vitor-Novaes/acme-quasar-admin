@@ -22,7 +22,7 @@
           </q-item>
           <q-item to="/orders" active-class="q-item-no-link-highlighting">
             <q-item-section avatar="">
-              <q-icon name="dashboard"></q-icon>
+              <q-icon name="shopping_cart"></q-icon>
             </q-item-section>
             <q-item-section>
               <q-item-label>Orders</q-item-label>
@@ -38,9 +38,9 @@
                   <q-item-label>List</q-item-label>
                 </q-item-section>
               </q-item>
-              <q-item to="/" active-class="q-item-no-link-highlighting">
+              <q-item to="/products/themes" active-class="q-item-no-link-highlighting">
                 <q-item-section avatar="">
-                  <q-icon name="lock"></q-icon>
+                  <q-icon name="card_giftcard"></q-icon>
                 </q-item-section>
                 <q-item-section>
                   <q-item-label>Themes</q-item-label>
