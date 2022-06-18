@@ -16,8 +16,30 @@
     <div class="row">
       <div class="col-12 flex flex-center q-py-md text-center">
         <div class="col">
-          <q-btn size="lg" class="q-mr-sm" flat color="grey-9" @click="dialogImport" btn-lg>
+          <q-btn size="lg" class="q-mr-sm" color="grey-9" @click="dialogImport" btn-lg icon="upload">
             Import CSV
+          </q-btn>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-12 q-my-xl q-mx-xl">
+      <div class="row q-my-md justify-between q-mx-md">
+        <div class='text-h4 text-left text-weight-bold q-pb-sm q-mt-xl'> Only for better model visualization</div>
+      </div>
+      <q-separator inset />
+      <div class="row q-my-md justify-between q-mx-md">
+        <div class='text-h5 text-left text-weight-bold q-pb-sm q-mt-xl'>
+          PATCH/DELETE/POST aren't implementing here yet. Please access API documentation in that button
+        </div>
+        <div class='q-pb-sm q-mt-xl'>
+          <q-btn
+            class="btn-md"
+            label="API DOC"
+            color="primary"
+            target='_blank'
+            @click="gotToDocs"
+            icon="link">
           </q-btn>
         </div>
       </div>
@@ -40,6 +62,9 @@ export default {
     ...mapActions('orders', ['uploadOrders']),
     dialogImport() {
       this.importDialog = true;
+    },
+    gotToDocs() {
+      return window.open('https://documenter.getpostman.com/view/5798364/UzBmM6xj', '_blank').focus()
     },
     async submitFile() {
       try {
